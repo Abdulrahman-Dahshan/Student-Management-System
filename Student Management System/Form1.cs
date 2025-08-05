@@ -69,16 +69,8 @@ namespace Student_Management_System
 
             if (validName && validCode && validGPA && validMajor)
             {
-              bool valid = DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
-                if (valid)
-                {
-                    MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                
-                else
-                {
-                    MessageBox.Show("A student with the same code already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
+              DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
+               
             }
 
             
@@ -94,6 +86,20 @@ namespace Student_Management_System
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
+            bool validName = !string.IsNullOrWhiteSpace(txtName.Text);
+            bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
+            bool validMajor = !string.IsNullOrWhiteSpace(cmbMajor.Text);
+            bool validGPA = double.TryParse(txtGPA.Text, out double gpa) && gpa >= 0.0 && gpa <= 4.0;
+
+            if (validName && validCode && validGPA && validMajor)
+            {
+                DatabaseHelper.UpdateStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                
+            }
+            else
+            {
+                MessageBox.Show("Please fill in all fields correctly.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
 
         }
 
@@ -102,16 +108,7 @@ namespace Student_Management_System
             bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
             if (validCode)
             {
-               bool exist =  DatabaseHelper.DeleteStudent(code);
-                if (exist)
-                {
-                    MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                else
-                {
-                    MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                }
-                
+                DatabaseHelper.DeleteStudent(code);    
             }
             else
             {

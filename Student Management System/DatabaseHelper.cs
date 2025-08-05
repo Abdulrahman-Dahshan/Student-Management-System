@@ -14,68 +14,107 @@ namespace Student_Management_System
     {
         private static readonly string connectionString = "Server=.;Database=StudentsDB;Trusted_Connection=True;"; //"Data Source=.;Initial Catalog=StudentsDB;Integrated Security=True";
 
-        public static bool AddStudent(string name, int code, string major, double gpa)
+        public static void AddStudent(string name, int code, string major, double gpa)
         {
-            using (SqlConnection con = new SqlConnection(connectionString))
+            if (!CheckStudent(code))   // Check if the student already exists before inserting  
             {
-                con.Open();
-
-                // Check if the student with the same code already exists
-                string checkQuery = "SELECT COUNT(*) FROM Students WHERE Code = @Code";
-                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                string insertQuery = "INSERT INTO Students (Name, Code, Major, GPA) VALUES (@Name, @Code, @Major, @GPA)";
+                using (SqlConnection connection = new SqlConnection(connectionString))
                 {
-                    checkCmd.Parameters.AddWithValue("@Code", code);
-
-                    int count = (int)checkCmd.ExecuteScalar();
-                    if (count > 0)
+                    connection.Open(); // Explicitly open the connection  
+                    using (SqlCommand insertCmd = new SqlCommand(insertQuery, connection))
                     {
-                        return false; // Student already exists
+                        insertCmd.Parameters.AddWithValue("@Name", name);
+                        insertCmd.Parameters.AddWithValue("@Code", code);
+                        insertCmd.Parameters.AddWithValue("@Major", major);
+                        insertCmd.Parameters.AddWithValue("@GPA", gpa);
+
+                        insertCmd.ExecuteNonQuery();
+                        MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
                 }
-
-                // Insert if not duplicate
-                string insertQuery = "INSERT INTO Students (Name, Code, Major, GPA) VALUES (@Name, @Code, @Major, @GPA)";
-                using (SqlCommand insertCmd = new SqlCommand(insertQuery, con))
-                {
-                    insertCmd.Parameters.AddWithValue("@Name", name);
-                    insertCmd.Parameters.AddWithValue("@Code", code);
-                    insertCmd.Parameters.AddWithValue("@Major", major);
-                    insertCmd.Parameters.AddWithValue("@GPA", gpa);
-
-                    insertCmd.ExecuteNonQuery();
-                    return true; // Successfully added
-                }
+            }
+            else
+            {
+                MessageBox.Show("A student with the same code already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
 
 
-        public static bool DeleteStudent(int code)
+        public static void DeleteStudent(int code)
+        {
+            if (CheckStudent(code))  // Ensure the student exists before deleting  
+            {
+                string deleteQuery = "DELETE FROM Students WHERE Code = @Code";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open();
+                    using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, connection))
+                    {
+                        deleteCmd.Parameters.AddWithValue("@Code", code);
+                        deleteCmd.ExecuteNonQuery();
+                        MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully deleted
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+
+        public static void UpdateStudent(string name, int code, string major, double gpa)
+        {
+            if (CheckStudent(code)) // Check if the student exists before updating  
+            {
+                string updateQuery = "UPDATE Students SET Name = @Name, Major = @Major, GPA = @GPA WHERE Code = @Code";
+                using (SqlConnection connection = new SqlConnection(connectionString))
+                {
+                    connection.Open(); // Open the connection explicitly
+                    using (SqlCommand updateCmd = new SqlCommand(updateQuery, connection))
+                    {
+                        updateCmd.Parameters.AddWithValue("@Name", name);
+                        updateCmd.Parameters.AddWithValue("@Code", code);
+                        updateCmd.Parameters.AddWithValue("@Major", major);
+                        updateCmd.Parameters.AddWithValue("@GPA", gpa);
+
+                        updateCmd.ExecuteNonQuery(); // Execute the update query
+                        MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully updated
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+
+
+        public static bool CheckStudent(int code)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
                 con.Open();
-
-                // Check if the student with the same code already exists
+                // Check if the student with the same code exists
                 string checkQuery = "SELECT COUNT(*) FROM Students WHERE Code = @Code";
                 using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
                 {
                     checkCmd.Parameters.AddWithValue("@Code", code);
-
                     int count = (int)checkCmd.ExecuteScalar();
                     if (count == 0)
                     {
-                        return false; // Student not exists
+                        
+                        return false; // Student does not exist
                     }
-                }
+                    else
+                    {
+                        return true; // Student exists
+                    }
 
-                // Delete if exist
-                string deleteQuery = "DELETE FROM Students WHERE Code = @Code";
-                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, con))
-                {
-                    deleteCmd.Parameters.AddWithValue("@Code", code);
-                    deleteCmd.ExecuteNonQuery();
-                    return true; // Successfully deleted
                 }
             }
         }
@@ -101,6 +140,9 @@ namespace Student_Management_System
                 }
             }
         }
+
+
+
 
 
 
