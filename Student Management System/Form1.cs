@@ -24,7 +24,7 @@ namespace Student_Management_System
             // Style each button with its own color
             StyleButton(btnAdd, Color.FromArgb(39, 174, 96));       // Green
             StyleButton(btnUpdate, Color.FromArgb(243, 156, 18));   // Orange
-            StyleButton(btnClear, Color.FromArgb(127, 140, 141));   // Gray
+            StyleButton(btnSave, Color.FromArgb(127, 140, 141));   // Gray
             StyleButton(btnDelete, Color.FromArgb(231, 76, 60));    // Red
 
             // Style DataGridView
@@ -59,24 +59,38 @@ namespace Student_Management_System
             btn.Cursor = Cursors.Hand;
         }
 
+
         private void btnAdd_Click(object sender, EventArgs e)
         {
             bool validName = !string.IsNullOrWhiteSpace(txtName.Text);
-            bool validAge = int.TryParse(numAge.Text, out int age) && age > 0 && age < 120;
-            bool validGPA = double.TryParse(txtGPA.Text, out double gpa) && gpa >= 0.0 && gpa <= 4.0;
+            bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
             bool validMajor = !string.IsNullOrWhiteSpace(cmbMajor.Text);
+            bool validGPA = double.TryParse(txtGPA.Text, out double gpa) && gpa >= 0.0 && gpa <= 4.0;
 
-            if (validName && validAge && validGPA && validMajor)
+            if (validName && validCode && validGPA && validMajor)
             {
-                DatabaseHelper.AddStudent(txtName.Text, age, cmbMajor.Text, gpa);
-                MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+              bool valid = DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                if (valid)
+                {
+                    MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
+                else
+                {
+                    MessageBox.Show("A student with the same code already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
+
+            
             else
             {
                 MessageBox.Show("Please fill in all fields correctly.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
+            
         }
+
+
 
         private void btnUpdate_Click(object sender, EventArgs e)
         {
@@ -85,22 +99,38 @@ namespace Student_Management_System
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-            bool validName = !string.IsNullOrWhiteSpace(txtName.Text);
-            bool validMajor = !string.IsNullOrWhiteSpace(cmbMajor.Text);
-            if (validName && validMajor)
+            bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
+            if (validCode)
             {
-                DatabaseHelper.DeleteStudent(txtName.Text, cmbMajor.Text);
+                DatabaseHelper.DeleteStudent(code); 
                 MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
             {
-                MessageBox.Show("Please enter a valid student name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Please enter a valid student code.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void btnClear_Click(object sender, EventArgs e)
-        {
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            saveFileDialog.ShowDialog();
+
+            string filePath = saveFileDialog.FileName;
+            if (!string.IsNullOrWhiteSpace(filePath))
+            {
+                if (!filePath.EndsWith(".xlsx"))
+                {
+                    filePath += ".xlsx";
+                }
+
+                DatabaseHelper.ExportUsersToExcel(filePath);
+                MessageBox.Show("File saved successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("No file path selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

@@ -37,23 +37,23 @@ namespace Student_Management_System
             lblMajor = new Label();
             txtName = new TextBox();
             cmbMajor = new ComboBox();
-            AgeLabel = new Label();
-            numAge = new NumericUpDown();
+            CodeLabel = new Label();
             GpsLabel = new Label();
             txtGPA = new TextBox();
             btnAdd = new Button();
             btnUpdate = new Button();
-            btnClear = new Button();
+            btnSave = new Button();
             btnDelete = new Button();
             SearchLabel = new Label();
             txtSearch = new TextBox();
             dataGridView1 = new DataGridView();
             colID = new DataGridViewTextBoxColumn();
             colName = new DataGridViewTextBoxColumn();
-            colAge = new DataGridViewTextBoxColumn();
+            colCode = new DataGridViewTextBoxColumn();
             colMajor = new DataGridViewTextBoxColumn();
             colGPA = new DataGridViewTextBoxColumn();
-            ((System.ComponentModel.ISupportInitialize)numAge).BeginInit();
+            saveFileDialog = new SaveFileDialog();
+            txtCode = new TextBox();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -80,7 +80,7 @@ namespace Student_Management_System
             // txtName
             // 
             txtName.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtName.Location = new Point(172, 46);
+            txtName.Location = new Point(196, 46);
             txtName.Name = "txtName";
             txtName.Size = new Size(176, 29);
             txtName.TabIndex = 2;
@@ -90,28 +90,20 @@ namespace Student_Management_System
             cmbMajor.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
             cmbMajor.FormattingEnabled = true;
             cmbMajor.Items.AddRange(new object[] { "Computer Science", "Mathematics", "Physics", "Chemistry", "Biology", "Engineering" });
-            cmbMajor.Location = new Point(172, 108);
+            cmbMajor.Location = new Point(196, 108);
             cmbMajor.Name = "cmbMajor";
             cmbMajor.Size = new Size(176, 29);
             cmbMajor.TabIndex = 3;
             // 
-            // AgeLabel
+            // CodeLabel
             // 
-            AgeLabel.AutoSize = true;
-            AgeLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            AgeLabel.Location = new Point(466, 49);
-            AgeLabel.Name = "AgeLabel";
-            AgeLabel.Size = new Size(49, 25);
-            AgeLabel.TabIndex = 4;
-            AgeLabel.Text = "Age:";
-            // 
-            // numAge
-            // 
-            numAge.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            numAge.Location = new Point(536, 47);
-            numAge.Name = "numAge";
-            numAge.Size = new Size(101, 29);
-            numAge.TabIndex = 5;
+            CodeLabel.AutoSize = true;
+            CodeLabel.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            CodeLabel.Location = new Point(466, 49);
+            CodeLabel.Name = "CodeLabel";
+            CodeLabel.Size = new Size(60, 25);
+            CodeLabel.TabIndex = 4;
+            CodeLabel.Text = "Code:";
             // 
             // GpsLabel
             // 
@@ -153,16 +145,16 @@ namespace Student_Management_System
             btnUpdate.UseVisualStyleBackColor = true;
             btnUpdate.Click += btnUpdate_Click;
             // 
-            // btnClear
+            // btnSave
             // 
-            btnClear.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnClear.Location = new Point(536, 201);
-            btnClear.Name = "btnClear";
-            btnClear.Size = new Size(120, 35);
-            btnClear.TabIndex = 10;
-            btnClear.Text = "Clear";
-            btnClear.UseVisualStyleBackColor = true;
-            btnClear.Click += btnClear_Click;
+            btnSave.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnSave.Location = new Point(536, 201);
+            btnSave.Name = "btnSave";
+            btnSave.Size = new Size(120, 35);
+            btnSave.TabIndex = 10;
+            btnSave.Text = "Save File";
+            btnSave.UseVisualStyleBackColor = true;
+            btnSave.Click += btnSave_Click;
             // 
             // btnDelete
             // 
@@ -197,7 +189,7 @@ namespace Student_Management_System
             // 
             dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colID, colName, colAge, colMajor, colGPA });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colID, colName, colCode, colMajor, colGPA });
             dataGridView1.Location = new Point(83, 351);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.Size = new Size(573, 48);
@@ -216,11 +208,11 @@ namespace Student_Management_System
             colName.Name = "colName";
             colName.Width = 200;
             // 
-            // colAge
+            // colCode
             // 
-            colAge.HeaderText = "Age";
-            colAge.Name = "colAge";
-            colAge.Width = 50;
+            colCode.HeaderText = "Code";
+            colCode.Name = "colCode";
+            colCode.Width = 50;
             // 
             // colMajor
             // 
@@ -234,29 +226,36 @@ namespace Student_Management_System
             colGPA.Name = "colGPA";
             colGPA.Width = 70;
             // 
+            // txtCode
+            // 
+            txtCode.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            txtCode.Location = new Point(536, 49);
+            txtCode.Name = "txtCode";
+            txtCode.Size = new Size(176, 29);
+            txtCode.TabIndex = 15;
+            // 
             // StudentManagementSystem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(742, 450);
+            Controls.Add(txtCode);
             Controls.Add(dataGridView1);
             Controls.Add(txtSearch);
             Controls.Add(SearchLabel);
             Controls.Add(btnDelete);
-            Controls.Add(btnClear);
+            Controls.Add(btnSave);
             Controls.Add(btnUpdate);
             Controls.Add(btnAdd);
             Controls.Add(txtGPA);
             Controls.Add(GpsLabel);
-            Controls.Add(numAge);
-            Controls.Add(AgeLabel);
+            Controls.Add(CodeLabel);
             Controls.Add(cmbMajor);
             Controls.Add(txtName);
             Controls.Add(lblMajor);
             Controls.Add(txtLabel);
             Name = "StudentManagementSystem";
             Text = "Student Management System";
-            ((System.ComponentModel.ISupportInitialize)numAge).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -268,20 +267,21 @@ namespace Student_Management_System
         private Label lblMajor;
         private TextBox txtName;
         private ComboBox cmbMajor;
-        private Label AgeLabel;
-        private NumericUpDown numAge;
+        private Label CodeLabel;
         private Label GpsLabel;
         private TextBox txtGPA;
         private Button btnAdd;
         private Button btnUpdate;
-        private Button btnClear;
+        private Button btnSave;
         private Button btnDelete;
         private Label SearchLabel;
         private TextBox txtSearch;
         private DataGridView dataGridView1;
+        private SaveFileDialog saveFileDialog;
+        private TextBox txtCode;
         private DataGridViewTextBoxColumn colID;
         private DataGridViewTextBoxColumn colName;
-        private DataGridViewTextBoxColumn colAge;
+        private DataGridViewTextBoxColumn colCode;
         private DataGridViewTextBoxColumn colMajor;
         private DataGridViewTextBoxColumn colGPA;
     }
