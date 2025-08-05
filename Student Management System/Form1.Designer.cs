@@ -184,6 +184,7 @@ namespace Student_Management_System
             txtSearch.Name = "txtSearch";
             txtSearch.Size = new Size(230, 29);
             txtSearch.TabIndex = 13;
+            txtSearch.TextChanged += txtSearch_TextChanged;
             // 
             // txtCode
             // 
@@ -192,34 +193,7 @@ namespace Student_Management_System
             txtCode.Name = "txtCode";
             txtCode.Size = new Size(176, 29);
             txtCode.TabIndex = 15;
-            // 
-            // colGPA
-            // 
-            colGPA.HeaderText = "GPA";
-            colGPA.Name = "colGPA";
-            colGPA.Width = 40;
-            // 
-            // colMajor
-            // 
-            colMajor.HeaderText = "Major";
-            colMajor.Name = "colMajor";
-            colMajor.Width = 150;
-            // 
-            // colCode
-            // 
-            colCode.HeaderText = "Code";
-            colCode.Name = "colCode";
-            // 
-            // colName
-            // 
-            colName.HeaderText = "Name";
-            colName.Name = "colName";
-            colName.Width = 200;
-            // 
-            // colID
-            // 
-            colID.Name = "colID";
-            // 
+            
             // dataGridView1
             // 
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -230,6 +204,7 @@ namespace Student_Management_System
             dataGridView1.ReadOnly = true;
             dataGridView1.Size = new Size(573, 165);
             dataGridView1.TabIndex = 14;
+            dataGridView1.Width = 600;
             // 
             // StudentManagementSystem
             // 

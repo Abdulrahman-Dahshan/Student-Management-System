@@ -70,17 +70,17 @@ namespace Student_Management_System
 
             if (validName && validCode && validGPA && validMajor)
             {
-                 DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
-                 LoadStudentsIntoGrid(); // Refresh the grid after deletion
+                DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                LoadStudentsIntoGrid(); // Refresh the grid after deletion
             }
 
-            
+
             else
             {
                 MessageBox.Show("Please fill in all fields correctly.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
-            
+
         }
 
 
@@ -146,6 +146,20 @@ namespace Student_Management_System
             dataGridView1.DataSource = dt;
         }
 
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string searchTerm = txtSearch.Text.Trim();
 
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                DataTable result = DatabaseHelper.SearchStudentByName(searchTerm);
+                dataGridView1.DataSource = result;
+            }
+            else
+            {
+                // Show all students again if search box is empty
+                dataGridView1.DataSource = DatabaseHelper.GetAllStudents();
+            }
+        }
     }
 }

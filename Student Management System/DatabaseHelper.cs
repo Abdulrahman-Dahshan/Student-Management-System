@@ -93,6 +93,24 @@ namespace Student_Management_System
             }
         }
 
+        public static DataTable SearchStudentByName(string name)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT * FROM Students WHERE Name LIKE @Name";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    cmd.Parameters.AddWithValue("@Name", "%" + name + "%");
+
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    adapter.Fill(dt);
+                    return dt;
+                }
+            }
+        }
+
 
 
         public static bool CheckStudent(int code)
