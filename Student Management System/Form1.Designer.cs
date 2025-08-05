@@ -34,7 +34,7 @@ namespace Student_Management_System
         private void InitializeComponent()
         {
             txtLabel = new Label();
-            txtMajor = new Label();
+            lblMajor = new Label();
             txtName = new TextBox();
             cmbMajor = new ComboBox();
             AgeLabel = new Label();
@@ -67,15 +67,15 @@ namespace Student_Management_System
             txtLabel.TabIndex = 0;
             txtLabel.Text = "Student Name:";
             // 
-            // txtMajor
+            // lblMajor
             // 
-            txtMajor.AutoSize = true;
-            txtMajor.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            txtMajor.Location = new Point(40, 108);
-            txtMajor.Name = "txtMajor";
-            txtMajor.Size = new Size(66, 25);
-            txtMajor.TabIndex = 1;
-            txtMajor.Text = "Major:";
+            lblMajor.AutoSize = true;
+            lblMajor.Font = new Font("Segoe UI", 14.25F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblMajor.Location = new Point(40, 108);
+            lblMajor.Name = "lblMajor";
+            lblMajor.Size = new Size(66, 25);
+            lblMajor.TabIndex = 1;
+            lblMajor.Text = "Major:";
             // 
             // txtName
             // 
@@ -252,7 +252,7 @@ namespace Student_Management_System
             Controls.Add(AgeLabel);
             Controls.Add(cmbMajor);
             Controls.Add(txtName);
-            Controls.Add(txtMajor);
+            Controls.Add(lblMajor);
             Controls.Add(txtLabel);
             Name = "StudentManagementSystem";
             Text = "Student Management System";
@@ -265,7 +265,7 @@ namespace Student_Management_System
         #endregion
 
         private Label txtLabel;
-        private Label txtMajor;
+        private Label lblMajor;
         private TextBox txtName;
         private ComboBox cmbMajor;
         private Label AgeLabel;

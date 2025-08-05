@@ -31,5 +31,25 @@ namespace Student_Management_System
 
             //LoadData(); // Refresh table
         }
+
+
+        public static void DeleteStudent(string name, string major)
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                string query = "DELETE FROM Students WHERE Name = @Name AND Major = @Major";
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@Name", name);
+                cmd.Parameters.AddWithValue("@Major", major);
+                con.Open();
+                cmd.ExecuteNonQuery();
+            }
+            // LoadData(); // Refresh table  
+        }
+
+
+
+
+
     }
 }

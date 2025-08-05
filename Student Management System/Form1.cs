@@ -64,11 +64,11 @@ namespace Student_Management_System
             bool validName = !string.IsNullOrWhiteSpace(txtName.Text);
             bool validAge = int.TryParse(numAge.Text, out int age) && age > 0 && age < 120;
             bool validGPA = double.TryParse(txtGPA.Text, out double gpa) && gpa >= 0.0 && gpa <= 4.0;
-            bool validMajor = !string.IsNullOrWhiteSpace(txtMajor.Text);
+            bool validMajor = !string.IsNullOrWhiteSpace(cmbMajor.Text);
 
             if (validName && validAge && validGPA && validMajor)
             {
-                DatabaseHelper.AddStudent(txtName.Text, age, txtMajor.Text, gpa);
+                DatabaseHelper.AddStudent(txtName.Text, age, cmbMajor.Text, gpa);
                 MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -85,7 +85,17 @@ namespace Student_Management_System
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+            bool validName = !string.IsNullOrWhiteSpace(txtName.Text);
+            bool validMajor = !string.IsNullOrWhiteSpace(cmbMajor.Text);
+            if (validName && validMajor)
+            {
+                DatabaseHelper.DeleteStudent(txtName.Text, cmbMajor.Text);
+                MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            else
+            {
+                MessageBox.Show("Please enter a valid student name.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnClear_Click(object sender, EventArgs e)
