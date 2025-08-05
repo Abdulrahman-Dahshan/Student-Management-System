@@ -102,8 +102,16 @@ namespace Student_Management_System
             bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
             if (validCode)
             {
-                DatabaseHelper.DeleteStudent(code); 
-                MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+               bool exist =  DatabaseHelper.DeleteStudent(code);
+                if (exist)
+                {
+                    MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
             }
             else
             {

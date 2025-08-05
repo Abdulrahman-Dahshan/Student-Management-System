@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Data.SqlClient;
 using ClosedXML.Excel;
 using System.Data;
+using System.Drawing;
 
 namespace Student_Management_System
 {
@@ -49,20 +50,36 @@ namespace Student_Management_System
 
 
 
-
-        public static void DeleteStudent(int code)
+        public static bool DeleteStudent(int code)
         {
             using (SqlConnection con = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM Students WHERE Code = @Code";
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@Code", code);
-                
                 con.Open();
-                cmd.ExecuteNonQuery();
+
+                // Check if the student with the same code already exists
+                string checkQuery = "SELECT COUNT(*) FROM Students WHERE Code = @Code";
+                using (SqlCommand checkCmd = new SqlCommand(checkQuery, con))
+                {
+                    checkCmd.Parameters.AddWithValue("@Code", code);
+
+                    int count = (int)checkCmd.ExecuteScalar();
+                    if (count == 0)
+                    {
+                        return false; // Student not exists
+                    }
+                }
+
+                // Delete if exist
+                string deleteQuery = "DELETE FROM Students WHERE Code = @Code";
+                using (SqlCommand deleteCmd = new SqlCommand(deleteQuery, con))
+                {
+                    deleteCmd.Parameters.AddWithValue("@Code", code);
+                    deleteCmd.ExecuteNonQuery();
+                    return true; // Successfully deleted
+                }
             }
-            
         }
+
 
         public static void ExportUsersToExcel(string filePath)
         {
