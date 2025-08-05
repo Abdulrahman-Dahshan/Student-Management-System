@@ -46,14 +46,14 @@ namespace Student_Management_System
             btnDelete = new Button();
             SearchLabel = new Label();
             txtSearch = new TextBox();
-            dataGridView1 = new DataGridView();
-            colID = new DataGridViewTextBoxColumn();
-            colName = new DataGridViewTextBoxColumn();
-            colCode = new DataGridViewTextBoxColumn();
-            colMajor = new DataGridViewTextBoxColumn();
-            colGPA = new DataGridViewTextBoxColumn();
             saveFileDialog = new SaveFileDialog();
             txtCode = new TextBox();
+            colGPA = new DataGridViewTextBoxColumn();
+            colMajor = new DataGridViewTextBoxColumn();
+            colCode = new DataGridViewTextBoxColumn();
+            colName = new DataGridViewTextBoxColumn();
+            colID = new DataGridViewTextBoxColumn();
+            dataGridView1 = new DataGridView();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             SuspendLayout();
             // 
@@ -185,47 +185,6 @@ namespace Student_Management_System
             txtSearch.Size = new Size(230, 29);
             txtSearch.TabIndex = 13;
             // 
-            // dataGridView1
-            // 
-            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { colID, colName, colCode, colMajor, colGPA });
-            dataGridView1.Location = new Point(83, 351);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.Size = new Size(573, 48);
-            dataGridView1.TabIndex = 14;
-            // 
-            // colID
-            // 
-            colID.HeaderText = "ID";
-            colID.Name = "colID";
-            colID.ReadOnly = true;
-            colID.Width = 50;
-            // 
-            // colName
-            // 
-            colName.HeaderText = "Name";
-            colName.Name = "colName";
-            colName.Width = 200;
-            // 
-            // colCode
-            // 
-            colCode.HeaderText = "Code";
-            colCode.Name = "colCode";
-            colCode.Width = 50;
-            // 
-            // colMajor
-            // 
-            colMajor.HeaderText = "Major";
-            colMajor.Name = "colMajor";
-            colMajor.Width = 160;
-            // 
-            // colGPA
-            // 
-            colGPA.HeaderText = "GPA";
-            colGPA.Name = "colGPA";
-            colGPA.Width = 70;
-            // 
             // txtCode
             // 
             txtCode.Font = new Font("Segoe UI", 12F, FontStyle.Regular, GraphicsUnit.Point, 0);
@@ -234,11 +193,49 @@ namespace Student_Management_System
             txtCode.Size = new Size(176, 29);
             txtCode.TabIndex = 15;
             // 
+            // colGPA
+            // 
+            colGPA.HeaderText = "GPA";
+            colGPA.Name = "colGPA";
+            colGPA.Width = 40;
+            // 
+            // colMajor
+            // 
+            colMajor.HeaderText = "Major";
+            colMajor.Name = "colMajor";
+            colMajor.Width = 150;
+            // 
+            // colCode
+            // 
+            colCode.HeaderText = "Code";
+            colCode.Name = "colCode";
+            // 
+            // colName
+            // 
+            colName.HeaderText = "Name";
+            colName.Name = "colName";
+            colName.Width = 200;
+            // 
+            // colID
+            // 
+            colID.Name = "colID";
+            // 
+            // dataGridView1
+            // 
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
+            dataGridView1.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
+            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView1.Location = new Point(83, 351);
+            dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
+            dataGridView1.Size = new Size(573, 165);
+            dataGridView1.TabIndex = 14;
+            // 
             // StudentManagementSystem
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(742, 450);
+            ClientSize = new Size(742, 550);
             Controls.Add(txtCode);
             Controls.Add(dataGridView1);
             Controls.Add(txtSearch);

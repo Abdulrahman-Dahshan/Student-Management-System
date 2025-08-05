@@ -13,6 +13,7 @@ namespace Student_Management_System
         {
             InitializeComponent();
             StyleControls();
+            LoadStudentsIntoGrid();
         }
 
         private void StyleControls()
@@ -69,8 +70,8 @@ namespace Student_Management_System
 
             if (validName && validCode && validGPA && validMajor)
             {
-              DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
-               
+                 DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                 LoadStudentsIntoGrid(); // Refresh the grid after deletion
             }
 
             
@@ -94,7 +95,7 @@ namespace Student_Management_System
             if (validName && validCode && validGPA && validMajor)
             {
                 DatabaseHelper.UpdateStudent(txtName.Text, code, cmbMajor.Text, gpa);
-                
+                LoadStudentsIntoGrid(); // Refresh the grid after deletion
             }
             else
             {
@@ -108,7 +109,8 @@ namespace Student_Management_System
             bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
             if (validCode)
             {
-                DatabaseHelper.DeleteStudent(code);    
+                DatabaseHelper.DeleteStudent(code);
+                LoadStudentsIntoGrid();  // Refresh the grid after deletion
             }
             else
             {
@@ -137,5 +139,13 @@ namespace Student_Management_System
                 MessageBox.Show("No file path selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        private void LoadStudentsIntoGrid()
+        {
+            DataTable dt = DatabaseHelper.GetAllStudents();
+            dataGridView1.DataSource = dt;
+        }
+
+
     }
 }

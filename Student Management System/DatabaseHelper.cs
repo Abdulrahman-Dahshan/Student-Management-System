@@ -31,6 +31,7 @@ namespace Student_Management_System
 
                         insertCmd.ExecuteNonQuery();
                         MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        
                     }
                 }
             }
@@ -141,10 +142,17 @@ namespace Student_Management_System
             }
         }
 
-
-
-
-
-
+        internal static DataTable GetAllStudents()
+        {
+            using (SqlConnection con = new SqlConnection(connectionString))
+            {
+                con.Open();
+                string query = "SELECT * FROM Students";
+                SqlDataAdapter adapter = new SqlDataAdapter(query, con);
+                DataTable dt = new DataTable();
+                adapter.Fill(dt);
+                return dt;
+            }
+        }
     }
 }
