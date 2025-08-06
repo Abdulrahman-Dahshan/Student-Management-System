@@ -70,8 +70,18 @@ namespace Student_Management_System
 
             if (validName && validCode && validGPA && validMajor)
             {
-                DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
-                LoadStudentsIntoGrid(); // Refresh the grid after deletion
+               bool added =  DatabaseHelper.AddStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                if (added)
+                {
+                    MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    LoadStudentsIntoGrid(); // Refresh the grid after deletion
+                    ClearData();
+                }
+                else
+                {
+                    MessageBox.Show("A student with the same code already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+
             }
 
 
@@ -94,8 +104,17 @@ namespace Student_Management_System
 
             if (validName && validCode && validGPA && validMajor)
             {
-                DatabaseHelper.UpdateStudent(txtName.Text, code, cmbMajor.Text, gpa);
-                LoadStudentsIntoGrid(); // Refresh the grid after deletion
+                bool update =  DatabaseHelper.UpdateStudent(txtName.Text, code, cmbMajor.Text, gpa);
+                if (update)
+                {
+                    MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully updated
+                    LoadStudentsIntoGrid(); // Refresh the grid after deletion
+                    ClearData();
+                }
+                else
+                {
+                    MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
             }
             else
             {
@@ -109,8 +128,19 @@ namespace Student_Management_System
             bool validCode = int.TryParse(txtCode.Text, out int code) && code > 0;
             if (validCode)
             {
-                DatabaseHelper.DeleteStudent(code);
-                LoadStudentsIntoGrid();  // Refresh the grid after deletion
+
+                bool deleted =  DatabaseHelper.DeleteStudent(code);
+                if (deleted)
+                {
+                    MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully deleted
+                    LoadStudentsIntoGrid();  // Refresh the grid after deletion
+                    ClearData(); 
+                }
+                else
+                {
+                    MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                
             }
             else
             {
@@ -144,6 +174,14 @@ namespace Student_Management_System
         {
             DataTable dt = DatabaseHelper.GetAllStudents();
             dataGridView1.DataSource = dt;
+        }
+
+        public void ClearData()
+        {
+            txtName.Clear();
+            txtCode.Clear();
+            cmbMajor.SelectedIndex = -1; // Reset the combo box selection
+            txtGPA.Clear();
         }
 
         private void txtSearch_TextChanged(object sender, EventArgs e)

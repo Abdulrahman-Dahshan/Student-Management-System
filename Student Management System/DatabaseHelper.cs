@@ -14,7 +14,7 @@ namespace Student_Management_System
     {
         private static readonly string connectionString = "Server=.;Database=StudentsDB;Trusted_Connection=True;"; //"Data Source=.;Initial Catalog=StudentsDB;Integrated Security=True";
 
-        public static void AddStudent(string name, int code, string major, double gpa)
+        public static bool AddStudent(string name, int code, string major, double gpa)
         {
             if (!CheckStudent(code))   // Check if the student already exists before inserting  
             {
@@ -29,21 +29,20 @@ namespace Student_Management_System
                         insertCmd.Parameters.AddWithValue("@Major", major);
                         insertCmd.Parameters.AddWithValue("@GPA", gpa);
 
-                        insertCmd.ExecuteNonQuery();
-                        MessageBox.Show("Student added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        
+                        insertCmd.ExecuteNonQuery();  
                     }
                 }
+                return true; // Successfully added
             }
             else
             {
-                MessageBox.Show("A student with the same code already exists!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;
             }
         }
 
 
 
-        public static void DeleteStudent(int code)
+        public static bool DeleteStudent(int code)
         {
             if (CheckStudent(code))  // Ensure the student exists before deleting  
             {
@@ -55,19 +54,19 @@ namespace Student_Management_System
                     {
                         deleteCmd.Parameters.AddWithValue("@Code", code);
                         deleteCmd.ExecuteNonQuery();
-                        MessageBox.Show("Student deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully deleted
                     }
                 }
+                return true;
             }
             else
             {
-                MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;               
             }
         }
 
 
 
-        public static void UpdateStudent(string name, int code, string major, double gpa)
+        public static bool UpdateStudent(string name, int code, string major, double gpa)
         {
             if (CheckStudent(code)) // Check if the student exists before updating  
             {
@@ -83,13 +82,13 @@ namespace Student_Management_System
                         updateCmd.Parameters.AddWithValue("@GPA", gpa);
 
                         updateCmd.ExecuteNonQuery(); // Execute the update query
-                        MessageBox.Show("Student updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information); // Successfully updated
                     }
                 }
+                return true;
             }
             else
             {
-                MessageBox.Show("There is no student with the same code!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return false;            
             }
         }
 
